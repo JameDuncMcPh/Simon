@@ -43,7 +43,7 @@
             this.greenButton.Size = new System.Drawing.Size(100, 100);
             this.greenButton.TabIndex = 0;
             this.greenButton.UseVisualStyleBackColor = false;
-            this.greenButton.Click += new System.EventHandler(this.greenButton_Click);
+            this.greenButton.Click += new System.EventHandler(this.button_Press);
             // 
             // redButton
             // 
@@ -53,7 +53,7 @@
             this.redButton.Size = new System.Drawing.Size(100, 100);
             this.redButton.TabIndex = 1;
             this.redButton.UseVisualStyleBackColor = false;
-            this.redButton.Click += new System.EventHandler(this.redButton_Click);
+            this.redButton.Click += new System.EventHandler(this.button_Press);
             // 
             // blueButton
             // 
@@ -63,7 +63,7 @@
             this.blueButton.Size = new System.Drawing.Size(100, 100);
             this.blueButton.TabIndex = 2;
             this.blueButton.UseVisualStyleBackColor = false;
-            this.blueButton.Click += new System.EventHandler(this.blueButton_Click);
+            this.blueButton.Click += new System.EventHandler(this.button_Press);
             // 
             // yellowButton
             // 
@@ -73,7 +73,7 @@
             this.yellowButton.Size = new System.Drawing.Size(100, 100);
             this.yellowButton.TabIndex = 3;
             this.yellowButton.UseVisualStyleBackColor = false;
-            this.yellowButton.Click += new System.EventHandler(this.yellowButton_Click);
+            this.yellowButton.Click += new System.EventHandler(this.button_Press);
             // 
             // cheaterLabel
             // 

@@ -28,18 +28,20 @@ namespace Simon
         public static int round = 0;
 
         //Brushes
-        SolidBrush drawBrush0 = new SolidBrush(Color.Maroon);
-        SolidBrush drawBrush1 = new SolidBrush(Color.Green);
+        SolidBrush drawBrush0 = new SolidBrush(Color.Green);
+        SolidBrush drawBrush1 = new SolidBrush(Color.Maroon);
         SolidBrush drawBrush2 = new SolidBrush(Color.DarkBlue);
         SolidBrush drawBrush3 = new SolidBrush(Color.Yellow);
-        SolidBrush drawBrush4 = new SolidBrush(Color.Red);
-        SolidBrush drawBrush5 = new SolidBrush(Color.GreenYellow);
+        SolidBrush drawBrush4 = new SolidBrush(Color.GreenYellow);
+        SolidBrush drawBrush5 = new SolidBrush(Color.Red);
         SolidBrush drawBrush6 = new SolidBrush(Color.Blue);
         SolidBrush drawBrush7 = new SolidBrush(Color.YellowGreen);
 
         //Arrays
         SolidBrush[] brushCan;
+        SolidBrush[] brushCanHighlights;
         SoundPlayer[] recordPlayer;
+        Button[] buttons;
 
         //Sounds
         SoundPlayer beepGreen = new SoundPlayer(Properties.Resources.Electronic_Chime_KevanGC_495939803);
@@ -51,9 +53,10 @@ namespace Simon
         public playScreen()
         {
             InitializeComponent();
-            brushCan = new SolidBrush[] { drawBrush0, drawBrush1, drawBrush2,
-                drawBrush3, drawBrush4, drawBrush5, drawBrush6, drawBrush7 };
-            recordPlayer = new SoundPlayer[] { beepRed, beepGreen, beepBlue, beepYellow};
+            brushCan = new SolidBrush[] { drawBrush0, drawBrush1, drawBrush2, drawBrush3, };
+            brushCanHighlights = new SolidBrush[] { drawBrush4, drawBrush5, drawBrush6, drawBrush7 };
+            recordPlayer = new SoundPlayer[] { beepGreen, beepRed, beepBlue, beepYellow };
+            buttons = new Button[] { greenButton, redButton, blueButton, yellowButton };
         }
 
         private void playScreen_Load(object sender, EventArgs e)
@@ -64,10 +67,10 @@ namespace Simon
             round = 0;
 
             //Give each buttton a  base colour and shape
-            greenButton.BackColor = brushCan[1].Color;
-            redButton.BackColor = brushCan[0].Color;
-            blueButton.BackColor = brushCan[2].Color;
-            yellowButton.BackColor = brushCan[3].Color;
+            for (int j = 0; j < 4; j++)
+            {
+                buttons[j].BackColor = brushCan[j].Color;
+            }
 
             //Set the graphics path and regions
             GraphicsPath cirlePath = new GraphicsPath();
@@ -98,7 +101,7 @@ namespace Simon
 
             Refresh();
             Thread.Sleep(1000);
-            
+
             //start the computors turn
             computor_Turn();
         }
@@ -106,10 +109,10 @@ namespace Simon
         private void computor_Turn()
         {
             //Clear the screen of colour
-            greenButton.BackColor = brushCan[1].Color;
-            redButton.BackColor = brushCan[0].Color;
-            blueButton.BackColor = brushCan[2].Color;
-            yellowButton.BackColor = brushCan[3].Color;
+            for (int j = 0; j < 4; j++)
+            {
+                buttons[j].BackColor = brushCan[j].Color;
+            }
 
             //Refresh and let the player get ready for the pattern
             cheaterLabel.Text = "WAIT";
@@ -117,14 +120,14 @@ namespace Simon
             Thread.Sleep(800);
 
             //Up the round and clear the previous computor and player list
-            round++;           
+            round++;
             playerList.Clear();
             computorList.Clear();
 
             //create new random pattern 
             for (int h = 0; h < round; h++)
             {
-                computorList.Add(computorGeuss.Next(1,5));
+                computorList.Add(computorGeuss.Next(1, 5));
             }
 
             //highlight each button in the pattern and play its sound
@@ -134,37 +137,37 @@ namespace Simon
                 {
                     case 1:
                         //shows the higlighted Green
-                        greenButton.BackColor = brushCan[5].Color;
-                        redButton.BackColor = brushCan[0].Color;
-                        blueButton.BackColor = brushCan[2].Color;
-                        yellowButton.BackColor = brushCan[3].Color;
-                        recordPlayer[1].Play();
-                        break;
-
-                    case 2:
-                        //shows the higlighted Red
-                        greenButton.BackColor = brushCan[1].Color;
-                        redButton.BackColor = brushCan[4].Color;
+                        greenButton.BackColor = brushCanHighlights[0].Color;
+                        redButton.BackColor = brushCan[1].Color;
                         blueButton.BackColor = brushCan[2].Color;
                         yellowButton.BackColor = brushCan[3].Color;
                         recordPlayer[0].Play();
                         break;
 
+                    case 2:
+                        //shows the higlighted Red
+                        greenButton.BackColor = brushCan[0].Color;
+                        redButton.BackColor = brushCanHighlights[1].Color;
+                        blueButton.BackColor = brushCan[2].Color;
+                        yellowButton.BackColor = brushCan[3].Color;
+                        recordPlayer[1].Play();
+                        break;
+
                     case 3:
                         //shows the higlighted Blue
-                        greenButton.BackColor = brushCan[1].Color;
-                        redButton.BackColor = brushCan[0].Color;
-                        blueButton.BackColor = brushCan[6].Color;
+                        greenButton.BackColor = brushCan[0].Color;
+                        redButton.BackColor = brushCan[1].Color;
+                        blueButton.BackColor = brushCanHighlights[2].Color;
                         yellowButton.BackColor = brushCan[3].Color;
                         recordPlayer[2].Play();
                         break;
 
                     case 4:
                         //shows the higlighted Yellow
-                        greenButton.BackColor = brushCan[1].Color;
-                        redButton.BackColor = brushCan[0].Color;
+                        greenButton.BackColor = brushCan[0].Color;
+                        redButton.BackColor = brushCan[1].Color;
                         blueButton.BackColor = brushCan[2].Color;
-                        yellowButton.BackColor = brushCan[7].Color;
+                        yellowButton.BackColor = brushCanHighlights[3].Color;
                         recordPlayer[3].Play();
                         break;
 
@@ -176,10 +179,10 @@ namespace Simon
                 Thread.Sleep(400);
 
                 //Reset buttons so there is a distinction between buttons
-                greenButton.BackColor = brushCan[1].Color;
-                redButton.BackColor = brushCan[0].Color;
-                blueButton.BackColor = brushCan[2].Color;
-                yellowButton.BackColor = brushCan[3].Color;
+                for (int j = 0; j < 4; j++)
+                {
+                    buttons[j].BackColor = brushCan[j].Color;
+                }
 
                 //Refresh and delay to show difference
                 Refresh();
@@ -212,97 +215,24 @@ namespace Simon
             }
         }
 
-        private void greenButton_Click(object sender, EventArgs e)
+        private void button_Press(object sender, EventArgs e)
         {
-            //add the colour to the pattern
-            playerList.Add(1);
+            Button button = sender as Button;
 
-            //show the pressed button as highlighted and play its sound
-            greenButton.BackColor = brushCan[5].Color;
-            redButton.BackColor = brushCan[0].Color;
-            blueButton.BackColor = brushCan[2].Color;
-            yellowButton.BackColor = brushCan[3].Color;
-            Refresh();
-            recordPlayer[1].Play();
+            int i = Array.IndexOf(buttons, button);
+
+            playerList.Add(i + 1);
+            recordPlayer[i].Play();
+            button.BackColor = brushCanHighlights[i].Color;
 
             //Wait then turn the buttons back to normal
+            Refresh();
             Thread.Sleep(100);
-            greenButton.BackColor = brushCan[1].Color;
-            redButton.BackColor = brushCan[0].Color;
-            blueButton.BackColor = brushCan[2].Color;
-            yellowButton.BackColor = brushCan[3].Color;
-
-            //Check if it was wrong
-            player_Turn();
-        }
-
-        private void redButton_Click(object sender, EventArgs e)
-        {
-            //add the colour to the pattern
-            playerList.Add(2);
-
-            //show the pressed button as highlighted and play its sound
-            greenButton.BackColor = brushCan[1].Color;
-            redButton.BackColor = brushCan[4].Color;
-            blueButton.BackColor = brushCan[2].Color;
-            yellowButton.BackColor = brushCan[3].Color;
-            recordPlayer[0].Play();
+            for (int j = 0; j < 4; j++)
+            {
+                buttons[j].BackColor = brushCan[j].Color;
+            }
             Refresh();
-
-            //Wait then turn the buttons back to normal
-            Thread.Sleep(80);
-            greenButton.BackColor = brushCan[1].Color;
-            redButton.BackColor = brushCan[0].Color;
-            blueButton.BackColor = brushCan[2].Color;
-            yellowButton.BackColor = brushCan[3].Color;
-
-            //Check if it was wrong
-            player_Turn();
-        }
-
-        private void blueButton_Click(object sender, EventArgs e)
-        {
-            //add the colour to the pattern
-            playerList.Add(3);
-
-            //show the pressed button as highlighted and play its sound
-            greenButton.BackColor = brushCan[1].Color;
-            redButton.BackColor = brushCan[0].Color;
-            blueButton.BackColor = brushCan[6].Color;
-            yellowButton.BackColor = brushCan[3].Color;
-            recordPlayer[2].Play();
-            Refresh();
-
-            //Wait then turn the buttons back to normal
-            Thread.Sleep(80);
-            greenButton.BackColor = brushCan[1].Color;
-            redButton.BackColor = brushCan[0].Color;
-            blueButton.BackColor = brushCan[2].Color;
-            yellowButton.BackColor = brushCan[3].Color;
-
-            //Check if it was wrong
-            player_Turn();
-        }
-
-        private void yellowButton_Click(object sender, EventArgs e)
-        {
-            //add the colour to the pattern
-            playerList.Add(4);
-
-            //show the pressed button as highlighted and play its sound
-            greenButton.BackColor = brushCan[1].Color;
-            redButton.BackColor = brushCan[0].Color;
-            blueButton.BackColor = brushCan[2].Color;
-            yellowButton.BackColor = brushCan[7].Color;
-            recordPlayer[3].Play();
-            Refresh();
-
-            //Wait then turn the buttons back to normal
-            Thread.Sleep(80);
-            greenButton.BackColor = brushCan[1].Color;
-            redButton.BackColor = brushCan[0].Color;
-            blueButton.BackColor = brushCan[2].Color;
-            yellowButton.BackColor = brushCan[3].Color;
 
             //Check if it was wrong
             player_Turn();
