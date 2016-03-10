@@ -11,6 +11,12 @@ using System.Threading;
 using System.Media;
 using System.Drawing.Drawing2D;
 
+/// <summary>
+/// Created by Duncan McPherson
+/// Febuary 29th 2016
+/// This code runs the main game
+/// </summary>
+
 
 namespace Simon
 {
@@ -19,13 +25,13 @@ namespace Simon
         #region Variables
         //Lists
         List<int> computorList = new List<int>();
-        List<int> playerList = new List<int>();
 
         //Random Numbers
         Random computorGeuss = new Random();
 
         //INT
         public static int round = 0;
+        int postion = 0;
 
         //Brushes
         SolidBrush drawBrush0 = new SolidBrush(Color.Green);
@@ -63,7 +69,6 @@ namespace Simon
         {
             //Reset varialbes
             computorList.Clear();
-            playerList.Clear();
             round = 0;
 
             //Give each buttton a  base colour and shape
@@ -80,13 +85,15 @@ namespace Simon
             buttonRegion.Exclude(new Rectangle(0, 0, 95, 5)); //remove top line
             buttonRegion.Exclude(new Rectangle(0, 95, 95, 5)); //remove bottom line
             buttonRegion.Exclude(new Rectangle(0, 0, 5, 95)); //remove left line
-            buttonRegion.Exclude(new Rectangle(95, 0, 5, 100)); //remove right line
+            buttonRegion.Exclude(new Rectangle(95, 0, 5, 100)); //remove right line
+
             //Setup the matrix and transformations
             Matrix transMatrix = new Matrix();
             transMatrix.RotateAt(90, new PointF(50, 50));
 
             //Set the green button
-            greenButton.Region = buttonRegion;
+            greenButton.Region = buttonRegion;
+
             //Set the red button
             buttonRegion.Transform(transMatrix);
             redButton.Region = buttonRegion;
@@ -121,8 +128,8 @@ namespace Simon
 
             //Up the round and clear the previous computor and player list
             round++;
-            playerList.Clear();
             computorList.Clear();
+            postion = 0;
 
             //create new random pattern 
             for (int h = 0; h < round; h++)
@@ -188,31 +195,8 @@ namespace Simon
                 Refresh();
                 Thread.Sleep(400);
             }
-            //Hand the game back to the player
+            //Hand the game back to the player and clear the guesses
             cheaterLabel.Text = "PLAY";
-        }
-
-        private void player_Turn()
-        {
-            //for each press in the player array check to see if it dosn't match the corrosponding colour
-            for (int i = 0; i < playerList.Count; i++)
-            {
-                if (computorList[i] != playerList[i])
-                {
-                    // f is the form that this control is on - ("this" is the current User Control)
-                    Form f = this.FindForm();
-                    f.Controls.Remove(this);
-
-                    //if there is a wrong press then game over
-                    GameOver go = new GameOver();
-                    f.Controls.Add(go);
-                }
-                else if (i == (playerList.Count - 1) && playerList.Count == computorList.Count)
-                {
-                    //else another turn starts
-                    computor_Turn();
-                }
-            }
         }
 
         private void button_Press(object sender, EventArgs e)
@@ -221,7 +205,6 @@ namespace Simon
 
             int i = Array.IndexOf(buttons, button);
 
-            playerList.Add(i + 1);
             recordPlayer[i].Play();
             button.BackColor = brushCanHighlights[i].Color;
 
@@ -234,8 +217,28 @@ namespace Simon
             }
             Refresh();
 
-            //Check if it was wrong
-            player_Turn();
+            //Check if it was wrong at the postion it is meant to be checked aganist
+            if (computorList[postion] != (i + 1))
+            {
+                // f is the form that this control is on - ("this" is the current User Control)
+                Form f = this.FindForm();
+                f.Controls.Remove(this);
+
+                //if there is a wrong press then game over
+                GameOver go = new GameOver();
+                f.Controls.Add(go);
+            }
+
+            if (postion + 1 == computorList.Count)
+            {
+                //else another turn starts
+                computor_Turn();
+            }
+            else
+            {
+                postion++;
+            }           
         }
     }
 }
+

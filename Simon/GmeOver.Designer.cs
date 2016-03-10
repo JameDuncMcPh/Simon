@@ -37,6 +37,7 @@
             // tellerLabel
             // 
             this.tellerLabel.AutoSize = true;
+            this.tellerLabel.BackColor = System.Drawing.Color.Transparent;
             this.tellerLabel.Font = new System.Drawing.Font("Miriam", 19F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tellerLabel.Location = new System.Drawing.Point(115, 77);
             this.tellerLabel.Name = "tellerLabel";
